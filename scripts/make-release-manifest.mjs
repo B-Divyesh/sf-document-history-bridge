@@ -37,7 +37,8 @@ const selected = {
 };
 for (const [platform, asset] of Object.entries(selected)) if (!asset) throw new Error(`No preferred installer found for ${platform}`);
 const platforms = Object.fromEntries(Object.entries(selected).map(([platform, asset]) => [platform, {
-  url: `https://github.com/${repository}/releases/latest/download/${encodeURIComponent(asset.name)}`,
+  // GitHub normalizes spaces in uploaded release asset names to periods.
+  url: `https://github.com/${repository}/releases/latest/download/${encodeURIComponent(asset.name.replaceAll(" ", "."))}`,
   sha256: asset.sha256,
   label: asset.name
 }]));

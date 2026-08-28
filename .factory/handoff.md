@@ -40,7 +40,9 @@ Verification on 2026-08-28:
 - Workflow: `.github/workflows/release.yml`.
 - Release URL: `https://github.com/B-Divyesh/sf-document-history-bridge/releases/tag/v0.1.0`.
 - Release manifest: `https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest/download/latest.json`.
-- Checksum verification: pending the active GitHub-hosted cross-platform build at handoff authoring; update this line after publication.
+- Published assets: Apple silicon DMG, Intel Mac DMG, Windows MSI and setup EXE, Linux AppImage and DEB, plus `SHA256SUMS` and `latest.json`.
+- Public verification: downloaded the 77,863,416-byte Linux AppImage through the URL in `latest.json`; its SHA-256 was `399bc7a2c3cb0fb82924e12fc3e983b98121be839488d9c927a1a23a2ba3a2f2`, exactly matching both the manifest and `SHA256SUMS`.
+- Installer verification: ran `public/install.sh` with an isolated temporary home; it fetched the public manifest, verified that hash, installed the executable under `.local/bin`, and reported the destination.
 
 ## Known gaps
 
