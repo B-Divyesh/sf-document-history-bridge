@@ -55,6 +55,8 @@ The hero is an original AI-generated editorial still life: stacked office-docume
 
 Generation record: created 2026-08-28 with the Param Factory Azure image deployment via `/opt/fleet/lib/gen-image.sh`; original output and JSON prompt sidecar live in `assets/src/`. The generated work is original for this product. It is disclosed as AI-generated in the site footer.
 
+The 1200×630 social preview is a center crop of that original image. The favicon is a hand-authored document-and-proof-mark SVG. The Apple touch icon is derived from the hand-authored application icon. No third-party visual assets are used.
+
 ## Responsive intent
 
 The marketing page moves from a masthead and two-column lead to a single reading column. On mobile it drops decorative folio annotations, preserves the product proof points, and keeps the detected download action before the illustration. The application retains capture, comparison, and restore; secondary metadata collapses into disclosure rows rather than disappearing.

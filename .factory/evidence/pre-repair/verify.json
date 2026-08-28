@@ -1,0 +1,17 @@
+{
+  "url": "https://document-history-bridge.sociobot.in",
+  "loadMs": 1081,
+  "errors": [
+    "Access to fetch at 'https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest/download/latest.json' from origin 'https://document-history-bridge.sociobot.in' has been blocked by CORS pol",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "a11y": {
+    "title": "Document History Bridge — Local office file history",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 2350
+  }
+}

@@ -3,67 +3,91 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Readable local history for DOCX, ODT and PDF files. Compare changes and restore exact prior versions without cloud storage." />
+    <meta name="description" content="Track changes in local DOCX, ODT, PDF, and text files. Compare edits and restore an earlier file without cloud storage." />
     <meta name="theme-color" content="#f2efe7" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Document History Bridge — Track office file changes" />
+    <meta property="og:description" content="Compare changes and restore earlier office files from a private local archive." />
+    <meta property="og:url" content="https://document-history-bridge.sociobot.in/" />
+    <meta property="og:image" content="https://document-history-bridge.sociobot.in/social-preview.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Document History Bridge — Track office file changes" />
+    <meta name="twitter:description" content="Compare changes and restore earlier office files from a private local archive." />
+    <meta name="twitter:image" content="https://document-history-bridge.sociobot.in/social-preview.webp" />
+    <link rel="canonical" href="https://document-history-bridge.sociobot.in/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" as="image" href="/archive-bridge-768.webp" media="(max-width: 800px)" fetchpriority="high" />
-    <title>Document History Bridge — Local office file history</title>
+    <title>Document History Bridge — Track office file changes</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <a class="brand" href="/" aria-label="Document History Bridge home"><span class="brand-mark" aria-hidden="true">D/H</span><span>Document History <b>Bridge</b></span></a>
-      <nav aria-label="Main navigation"><a href="#how">How it works</a><a href="#price">Price</a><a class="nav-download" href="#download">Download</a></nav>
+      <nav aria-label="Main navigation"><a href="/demo/">Demo</a><a href="#how">How it works</a><a href="/privacy/">Privacy</a><a class="nav-download" href="#download">Download</a></nav>
     </header>
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Private document record · Edition 01</p>
-          <h1 id="hero-title">Every edit<br>leaves a <em>trace.</em></h1>
-          <p class="hero-deck">Understand what changed in the office files that matter—and recover the exact version you meant to keep. Nothing leaves your computer.</p>
-          <div class="download-block" id="download">
-            <a class="download-button" id="primary-download" href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest"><span>Download for your computer</span><small>Detecting your operating system…</small></a>
-            <p id="download-note">Free for one folder · macOS, Windows &amp; Linux</p>
+          <p class="eyebrow">Private document history · Edition 01</p>
+          <h1 id="hero-title">Track changes in<br>your <em>office files.</em></h1>
+          <p class="hero-deck">For people managing office files outside Git, it shows changes and restores the version you meant to keep.</p>
+          <div class="hero-actions">
+            <a class="demo-button" href="/demo/"><span>Try it with sample data</span><small>Opens a browser demo. Nothing is saved.</small></a>
+            <div class="download-block" id="download">
+              <a class="download-button secondary" id="primary-download" href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest"><span>Download for your computer</span><small>Checking published downloads…</small></a>
+              <p id="download-note" role="status" aria-live="polite">Free for one folder · macOS, Windows, and Linux</p>
+            </div>
           </div>
         </div>
         <picture class="hero-art">
           <source media="(max-width: 800px)" srcset="/archive-bridge-768.webp" />
-          <img src="/archive-bridge-1440.webp" width="1440" height="960" alt="An editorial drawing of scattered document revisions resolving into a neatly bound archive" decoding="async" fetchpriority="high" />
+          <img src="/archive-bridge-1440.webp" width="1440" height="960" alt="Scattered document revisions resolve into a neatly bound archive." decoding="async" fetchpriority="high" />
         </picture>
         <div class="hero-folio" aria-hidden="true"><span>From disorder</span><i></i><span>to record</span></div>
       </section>
 
       <section class="proof-strip" aria-label="Product facts">
-        <div><b>100%</b><span>Local files</span></div><div><b>Exact</b><span>Byte-for-byte restore</span></div><div><b>Readable</b><span>Text &amp; table changes</span></div><div><b>Quiet</b><span>No account or telemetry</span></div>
+        <div><b>On device</b><span>Files stay on your computer</span></div><div><b>Free</b><span>One watched folder</span></div><div><b>$29 once</b><span>Unlimited history</span></div>
       </section>
 
-      <section class="editorial-section" id="how" aria-labelledby="how-title">
-        <header class="section-intro"><p class="eyebrow">The working record</p><h2 id="how-title">A history made for documents, not developers.</h2><p>You shouldn’t need Git commands—or a storage subscription—to answer a simple question: what happened to this file?</p></header>
-        <ol class="steps">
-          <li><span>01</span><div><h3>Watch the folder you already use</h3><p>Keep Word, OpenDocument, PDF, and text files where they are. The app only reads originals and saves content-addressed snapshots in its private local archive.</p></div></li>
-          <li><span>02</span><div><h3>Read the change sheet</h3><p>Choose any date to compare extracted paragraphs and table cells. Additions are underlined; removals are struck through, like familiar proof marks.</p></div></li>
-          <li><span>03</span><div><h3>Restore without a leap of faith</h3><p>Before restoring, the current file gets one last safety snapshot. Then the exact earlier bytes—not a converted copy—return to their original path.</p></div></li>
+      <section class="product-preview" aria-labelledby="preview-title">
+        <header class="section-intro"><p class="eyebrow">Sample project</p><h2 id="preview-title">See the record before you install.</h2><p>Three sample screens show a watched folder, a change, and a safe restore.</p></header>
+        <ol class="walkthrough">
+          <li><div class="preview-frame"><span class="frame-folio">01 / WATCH</span><b>Client records</b><p>Proposal.docx<br>Policy.odt<br>Meeting-notes.md</p></div><h3>Watch a folder</h3><p>Choose an existing folder. The app files the supported documents it finds.</p></li>
+          <li><div class="preview-frame change"><span class="frame-folio">02 / COMPARE</span><b>Proposal.docx</b><p>Payment is due within <del>thirty</del> <ins>forty-five</ins> days.</p></div><h3>Read the change</h3><p>Pick two snapshots. Added and removed words appear on one change sheet.</p></li>
+          <li><div class="preview-frame restore"><span class="frame-folio">03 / RESTORE</span><b>Exact file preserved</b><p>Restore the 24 August version?</p><span class="frame-action">Restore this version</span></div><h3>Restore a version</h3><p>Confirm the restore. The app captures the current file before replacing it.</p></li>
         </ol>
       </section>
 
-      <section class="feature-spread" aria-labelledby="spread-title">
-        <div class="change-sheet" aria-label="Example document comparison">
+      <section class="editorial-section" id="how" aria-labelledby="how-title">
+        <header class="section-intro"><p class="eyebrow">How it works</p><h2 id="how-title">A history made for office documents.</h2><p>You can answer what changed without learning Git or moving files into cloud storage.</p></header>
+        <ol class="steps">
+          <li><span>01</span><div><h3>Watch the folder you use</h3><p>Keep DOCX, ODT, PDF, and text files where they are. The app reads originals and creates local snapshots.</p></div></li>
+          <li><span>02</span><div><h3>Read the change sheet</h3><p>Choose a date to compare paragraphs and table cells. Added and removed words have clear labels.</p></div></li>
+          <li><span>03</span><div><h3>Restore the exact file</h3><p>The app first captures the current file. It then returns the earlier bytes to the original path.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="feature-spread" aria-labelledby="limits-title">
+        <div class="change-sheet" aria-label="Sample document comparison">
           <header><span>Change sheet / 07</span><span>Proposal.docx</span></header>
-          <p>Payment is due within <del>thirty</del> <ins>forty-five</ins> days of receipt. The review begins on <del>Monday</del> <ins>Wednesday</ins>.</p>
+          <p>Payment is due within <del>thirty</del> <ins>forty-five</ins> days of receipt.</p>
           <footer><span class="seal">✓</span> Exact original preserved</footer>
         </div>
-        <div class="feature-copy"><p class="eyebrow">Meaning before machinery</p><h2 id="spread-title">See the sentence,<br>not just the timestamp.</h2><p>DOCX and ODT paragraphs and tables become a readable proof. Text-based PDFs get the same treatment. If a file is encrypted, proprietary, or image-only, the app says so plainly—and still keeps the exact snapshot safe.</p><ul><li>Automatic capture while the app runs</li><li>SHA-256 content-addressed storage</li><li>Visible warnings for unsupported previews</li><li>No OCR, conversion uploads, or hidden sync</li></ul></div>
+        <div class="feature-copy"><p class="eyebrow">Clear limits</p><h2 id="limits-title">Know what the preview cannot read.</h2><p>Encrypted, damaged, and image-only files do not get a text preview. The app still keeps each supported file snapshot.</p><ul><li>Works while the desktop app runs</li><li>Reads text layers but does not run OCR</li><li>Does not sync or edit with other people</li><li>Needs a separate backup for device loss</li></ul></div>
       </section>
 
       <section class="price-section" id="price" aria-labelledby="price-title">
-        <div><p class="eyebrow">A utility you can keep</p><h2 id="price-title">One archive.<br>One honest price.</h2></div>
-        <div class="price-free"><span>Free</span><b>$0</b><p>One watched folder, 30 snapshots per file, unlimited comparisons and safe restores.</p></div>
-        <div class="price-paid"><span>Archive license</span><b>$29 <small>once</small></b><p>Unlimited watched folders and snapshots. Yours to use indefinitely.</p><a href="https://api.sociobot.in/api/v1/products/document-history-bridge/checkout">Buy Archive license →</a></div>
+        <div><p class="eyebrow">Free or one-time purchase</p><h2 id="price-title">Choose how much history to keep.</h2></div>
+        <div class="price-free"><span>Free</span><b>$0</b><p>Watch one folder and keep 30 snapshots per file. Compare and restore any saved version.</p></div>
+        <div class="price-paid"><span>Archive license</span><b>$29 <small>once</small></b><p>Watch unlimited folders and keep unlimited snapshots on this device.</p><a href="https://api.sociobot.in/api/v1/products/document-history-bridge/checkout">Buy Archive license →</a></div>
       </section>
 
-      <section class="closing" aria-labelledby="closing-title"><p class="eyebrow">Your files remain yours</p><h2 id="closing-title">Put a bridge behind your next edit.</h2><a class="download-button compact" id="secondary-download" href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest"><span>Download Document History Bridge</span><small>Free to begin</small></a></section>
+      <section class="closing" aria-labelledby="closing-title"><p class="eyebrow">Ready to keep a record?</p><h2 id="closing-title">Download the desktop app.</h2><a class="download-button compact" id="secondary-download" href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest"><span>Download Document History Bridge</span><small>Checking published downloads…</small></a></section>
     </main>
-    <footer class="site-footer"><div><span class="brand-mark" aria-hidden="true">D/H</span><p>Document History Bridge<br><small>Built by Sociobot · No telemetry</small></p></div><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-document-history-bridge">Source</a></nav><p class="generation-note">Hero artwork generated for this product with Azure AI Foundry.</p></footer>
-    <noscript><p class="noscript">JavaScript is only used to choose the right installer. <a href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest">Browse every release</a>.</p></noscript>
+    <footer class="site-footer"><div><span class="brand-mark" aria-hidden="true">D/H</span><p>Local history for office files.<br><small>Built by Param Factory · Version 0.1.1</small></p></div><nav aria-label="Footer navigation"><a href="/demo/">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-document-history-bridge">Source</a></nav><p class="generation-note">Original hero art was generated with Azure AI Foundry.</p></footer>
+    <noscript><p class="noscript">JavaScript only selects your installer. <a href="https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest">Open GitHub Releases</a>.</p></noscript>
     <script type="module" src="/main.ts"></script>
   </body>
 </html>

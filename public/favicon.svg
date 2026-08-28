@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Document History Bridge">
+  <rect width="64" height="64" fill="#f2efe7"/>
+  <path d="M14 10h23l13 13v31H14z" fill="#fbfaf6" stroke="#171713" stroke-width="3"/>
+  <path d="M37 10v13h13M21 32h22M21 41h15" fill="none" stroke="#171713" stroke-width="3"/>
+  <path d="M31 49h12" stroke="#a63828" stroke-width="4"/>
+</svg>

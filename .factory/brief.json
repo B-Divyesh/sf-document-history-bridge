@@ -1,6 +1,7 @@
 {
   "slug": "document-history-bridge",
   "title": "Document History Bridge",
+  "summary": "Track changes and restore earlier versions of office files without moving them to cloud storage.",
   "territory": "utilities",
   "user": "People managing important office documents outside Git who need to see what changed and recover an earlier version without moving files into a proprietary cloud.",
   "smallest_useful_product": "A local desktop folder watcher that creates content-addressed snapshots, renders DOCX/ODT/PDF previews, highlights text/table changes, and restores an exact prior file.",

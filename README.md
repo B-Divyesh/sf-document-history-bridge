@@ -1,28 +1,28 @@
 # Document History Bridge
 
-Document History Bridge is a local-first desktop utility for people who keep important office files outside Git. It watches existing folders, creates deduplicated SHA-256 snapshots, turns DOCX/ODT/PDF content into readable change sheets, and restores the exact bytes of an earlier version.
+Track changes and restore earlier versions of office files without moving them to cloud storage.
 
-No document contents, extracted text, folder paths, or usage data leave the machine. The only network request made by the app is an optional license verification.
+Document History Bridge is a Tauri 2 desktop app for people who manage important files outside Git. It watches chosen folders, stores local snapshots, shows text changes, and restores exact earlier bytes.
+
+The app supports DOCX, ODT, PDF, RTF, Markdown, and text files. Image-only, encrypted, and damaged files remain recoverable but may not have a text preview.
+
+The free edition watches one folder and keeps 30 snapshots per file. A $29 one-time Archive license removes both limits. Comparison and restore remain free.
 
 Website: [document-history-bridge.sociobot.in](https://document-history-bridge.sociobot.in)
 
-## What v1 does
+## Try the sample project
 
-- Watches one or more existing folders while the app is running, without reorganizing originals.
-- Captures DOCX, ODT, PDF, RTF, Markdown, and plain-text files into a content-addressed local archive.
-- Extracts paragraphs and table cells from DOCX/ODT and text layers from PDFs.
-- Compares any snapshot with the one before it using explicit added/removed proof marks.
-- Restores exact earlier bytes after making a pre-restore safety snapshot.
-- Clearly preserves, but does not preview, encrypted, image-only, or malformed formats.
-- Free edition: one folder and the latest 30 versions per file. A $29 one-time Archive license unlocks unlimited folders and indexed snapshots. Comparison and safe restore remain free.
+Open the [browser demo](https://document-history-bridge.sociobot.in/demo/). It includes three office files with two snapshots each.
 
-Non-goals for v1 are OCR, live coauthoring, cloud sync, and spreadsheet-native diffs.
+The desktop first-run screen also has **Load sample project**. Both demos are separate from your real archive. See [.factory/demo.md](.factory/demo.md) for reset and isolation details.
 
 ## Install
 
 Download the detected installer from the website or [GitHub Releases](https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest).
 
-macOS and Windows artifacts are unsigned until the operator adds signing certificates. On macOS, Control-click the app and choose **Open** on first launch. On Windows, review and accept the SmartScreen prompt.
+macOS and Windows installers are unsigned. On macOS, Control-click the app and choose **Open**. On Windows, review the SmartScreen notice before continuing.
+
+The website reads release data from GitHub’s CORS-enabled API. It caches successful metadata for one hour and links directly to release assets.
 
 Verified one-line installers:
 
@@ -34,43 +34,46 @@ curl -fsSL https://document-history-bridge.sociobot.in/install.sh | sh
 irm https://document-history-bridge.sociobot.in/install.ps1 | iex
 ```
 
-Both scripts read the release manifest, download the matching installer, verify SHA-256, and print exactly what they did.
+These scripts download `latest.json`, verify the chosen asset’s SHA-256 value, and report the installed path.
 
-## Local development
+## Run locally
 
-Requirements: Node.js 22, Rust stable, and the [Tauri 2 system prerequisites](https://v2.tauri.app/start/prerequisites/).
+Use Node.js 22 and Rust stable. Linux native tests also need the [Tauri 2 system packages](https://v2.tauri.app/start/prerequisites/).
 
 ```sh
 npm ci
-npm run tauri dev       # desktop app
-npm run dev:site        # landing site
+npm run tauri dev
+npm run dev:site
 ```
 
-Build everything with the work-order command:
+Build the desktop webview and static website:
 
 ```sh
 npm run build
 ```
 
-The desktop webview is written to `dist/app/`; the deployable static website is written to `dist/site/` with `index.html` at that root.
+The desktop webview is written to `dist/app/`. The deployable website is written to `dist/site/`.
 
-## Test and verify
+## Test
 
 ```sh
 npm test
 cargo test --manifest-path src-tauri/Cargo.toml
+cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
 ```
 
-`npm test` runs Vitest logic tests plus Playwright desktop/mobile and axe accessibility tests. Release binaries are built only by `.github/workflows/release.yml` on a `v*` tag or manual dispatch.
+`npm test` runs unit tests and Playwright checks for browser, mobile, keyboard, accessibility, privacy, cache, and fallback behavior. Product claims and their exact commands are listed in [.factory/claims.json](.factory/claims.json).
 
-## Archive safety
+Release binaries are built by [.github/workflows/release.yml](.github/workflows/release.yml) for macOS, Windows, and Linux.
 
-The archive is stored under the OS-specific application data directory for `in.sociobot.document-history-bridge`. Objects are addressed by SHA-256 and written through temporary files. A restore captures the current original, prepares the replacement beside it, and rolls back if the final move fails. Uninstalling does not intentionally delete the archive.
+## Privacy and safety
 
-Keep a separate backup for irreplaceable records. A local version history protects against editing mistakes; it is not a substitute for device-loss or disk-failure backup.
+The desktop app has no analytics, ads, account system, or cloud document storage. Optional license checks contact only the Sociobot billing API.
 
-## Privacy and licensing
+A restore first records the current file. Keep a separate backup for device loss or disk failure.
 
-See [/privacy](https://document-history-bridge.sociobot.in/privacy/) and [/terms](https://document-history-bridge.sociobot.in/terms/). Purchases use the Sociobot billing API; no payment provider is embedded in the app or site.
+Read the [privacy policy](https://document-history-bridge.sociobot.in/privacy/) and [terms](https://document-history-bridge.sociobot.in/terms/).
 
-The source is available under the [MIT License](LICENSE).
+## License
+
+[MIT](LICENSE)

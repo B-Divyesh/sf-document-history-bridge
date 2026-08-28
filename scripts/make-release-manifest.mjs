@@ -4,7 +4,7 @@ import { basename, join } from "node:path";
 
 const root = process.argv[2] || "release-assets";
 const repository = process.env.GITHUB_REPOSITORY || "B-Divyesh/sf-document-history-bridge";
-const version = (process.env.RELEASE_VERSION || process.env.GITHUB_REF_NAME || "v0.1.0").replace(/^v/, "");
+const version = (process.env.RELEASE_VERSION || process.env.GITHUB_REF_NAME || "v0.1.1").replace(/^v/, "");
 
 async function filesAt(path) {
   const entries = await readdir(path, { withFileTypes: true });

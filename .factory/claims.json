@@ -1,0 +1,79 @@
+[
+  {
+    "id": "platform-download",
+    "claim": "The page links to the published installer for the detected desktop platform.",
+    "where": "landing download buttons",
+    "test": "npm run test:e2e -- --grep @claim:platform-download",
+    "sandbox": "mock CORS-enabled GitHub Releases API; Linux browser; assert the AppImage asset URL and no legacy manifest request"
+  },
+  {
+    "id": "sample-comparison",
+    "claim": "The demo compares added and removed words from sample office documents.",
+    "where": "landing walkthrough and demo change sheet",
+    "test": "npm run test:e2e -- --grep @claim:sample-comparison",
+    "sandbox": "fresh browser context at /demo; select Records-policy.odt; assert removed and added terms"
+  },
+  {
+    "id": "demo-private",
+    "claim": "The browser demo uses sample data and does not send it off-site.",
+    "where": "landing demo action, demo banner, privacy page",
+    "test": "npm run test:e2e -- --grep @claim:demo-private",
+    "sandbox": "fresh browser context at /demo; use comparison and restore; assert only same-origin requests and demo-prefixed storage"
+  },
+  {
+    "id": "safe-restore",
+    "claim": "The sample restore changes no file on the visitor's computer.",
+    "where": "demo restore result",
+    "test": "npm run test:e2e -- --grep @claim:safe-restore",
+    "sandbox": "fresh browser context at /demo; restore the selected sample; assert the announced no-file-changed result"
+  },
+  {
+    "id": "free-limits",
+    "claim": "The free edition watches one folder and keeps 30 snapshots per file; $29 once removes both limits.",
+    "where": "landing pricing and README",
+    "test": "npm run test:e2e -- --grep @claim:free-limits",
+    "sandbox": "fresh browser context; assert both limits in the rendered free-edition offer"
+  },
+  {
+    "id": "native-history",
+    "claim": "The desktop app stores snapshots locally and restores exact earlier bytes after capturing the current file.",
+    "where": "landing how-it-works, desktop app, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_native_history",
+    "sandbox": "temporary local archive and text document; capture two versions; restore the first; compare exact bytes and inspect the safety snapshot"
+  },
+  {
+    "id": "app-privacy",
+    "claim": "The desktop app has no analytics, telemetry, ads, accounts, or cloud document storage; only optional license checks use the network.",
+    "where": "landing, privacy page, desktop footer, README",
+    "test": "npm run test:unit -- --testNamePattern @claim:app-privacy",
+    "sandbox": "inspect the shipped app source, dependency manifest, and Tauri connect policy for allowed network origins and tracking packages"
+  },
+  {
+    "id": "format-support",
+    "claim": "The app accepts DOCX, ODT, PDF, RTF, Markdown, and text files while rejecting unsupported extensions.",
+    "where": "landing, desktop first run, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml supported_formats_are_explicit",
+    "sandbox": "native format allowlist; assert every advertised extension and reject an unlisted spreadsheet extension"
+  },
+  {
+    "id": "release-cache",
+    "claim": "The website caches successful GitHub release metadata for one hour.",
+    "where": "README and release loader",
+    "test": "npm run test:e2e -- --grep @claim:release-cache",
+    "sandbox": "load mocked release metadata, reload with the network route set to fail, and assert no second API request"
+  },
+  {
+    "id": "installer-checksum",
+    "claim": "The shell and PowerShell installers verify the downloaded asset with SHA-256 before installation.",
+    "where": "README and installer scripts",
+    "test": "npm run test:unit -- --testNamePattern @claim:installer-checksum",
+    "sandbox": "inspect both shipped scripts for SHA-256 calculation, equality checks, and failure-before-install behavior"
+  },
+  {
+    "id": "release-matrix",
+    "claim": "The release workflow builds macOS arm64/x64, Windows x64, and Linux x64 assets with checksums and metadata.",
+    "where": "README and release workflow",
+    "test": "npm run test:unit -- --testNamePattern @claim:release-matrix",
+    "sandbox": "inspect the shipped GitHub Actions matrix and publication asset list"
+  }
+]

@@ -1,6 +1,6 @@
 [package]
 name = "document-history-bridge"
-version = "0.1.0"
+version = "0.1.1"
 description = "Readable local history for office documents"
 authors = ["Sociobot"]
 license = "MIT"

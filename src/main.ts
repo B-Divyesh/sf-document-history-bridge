@@ -7,10 +7,31 @@ import { formatBytes, formatDate, textDiff } from "./history";
 type DocumentItem = { id: string; name: string; path: string; extension: string; latest_at: string; version_count: number; size: number; status: string };
 type Version = { hash: string; captured_at: string; size: number; text: string; reason: string; extraction_warning?: string };
 
-const state: { documents: DocumentItem[]; selected?: DocumentItem; versions: Version[]; current?: Version; previous?: Version; busy: boolean } = {
-  documents: [], versions: [], busy: false
+const state: { documents: DocumentItem[]; selected?: DocumentItem; versions: Version[]; current?: Version; previous?: Version; busy: boolean; demo: boolean } = {
+  documents: [], versions: [], busy: false, demo: new URLSearchParams(location.search).get("demo") === "1"
 };
 const app = document.querySelector<HTMLDivElement>("#app")!;
+
+const demoDocuments: DocumentItem[] = [
+  { id: "demo-proposal", name: "Proposal.docx", path: "demo:/Client records/Proposal.docx", extension: ".docx", latest_at: "2026-08-28T09:42:00Z", version_count: 2, size: 86016, status: "ready" },
+  { id: "demo-policy", name: "Records-policy.odt", path: "demo:/Client records/Records-policy.odt", extension: ".odt", latest_at: "2026-08-27T14:06:00Z", version_count: 2, size: 52224, status: "ready" },
+  { id: "demo-notes", name: "Meeting-notes.md", path: "demo:/Client records/Meeting-notes.md", extension: ".md", latest_at: "2026-08-26T17:30:00Z", version_count: 2, size: 12288, status: "ready" }
+];
+
+const demoVersions: Record<string, Version[]> = {
+  "demo-proposal": [
+    { hash: "f45da2c19b7045ec", captured_at: "2026-08-28T09:42:00Z", size: 86016, reason: "Folder change", text: "Payment is due within forty-five days of receipt. The review begins on Wednesday." },
+    { hash: "a30b7e819e2365bb", captured_at: "2026-08-24T16:10:00Z", size: 84992, reason: "Initial capture", text: "Payment is due within thirty days of receipt. The review begins on Monday." }
+  ],
+  "demo-policy": [
+    { hash: "7ed4c012a1a4caa9", captured_at: "2026-08-27T14:06:00Z", size: 52224, reason: "Folder change", text: "Signed records are kept for seven years after the project closes." },
+    { hash: "1b2ce45d29e4c122", captured_at: "2026-08-18T11:22:00Z", size: 51200, reason: "Initial capture", text: "Signed records are kept for five years after the project closes." }
+  ],
+  "demo-notes": [
+    { hash: "281bddf501bce233", captured_at: "2026-08-26T17:30:00Z", size: 12288, reason: "Manual capture", text: "Rina will send the revised schedule by Thursday. Omar will review the cost table." },
+    { hash: "32ef7bc09ad3f814", captured_at: "2026-08-26T10:15:00Z", size: 11940, reason: "Initial capture", text: "Rina will send the revised schedule by Friday." }
+  ]
+};
 
 const icon = (name: "archive" | "plus" | "restore" | "file" | "check") => {
   const paths = {
@@ -30,6 +51,7 @@ function shell(): void {
       <div class="header-status"><span class="pulse" aria-hidden="true"></span><span>Local archive</span></div>
       <button class="quiet-button" id="license-button">${hasArchiveLicense() ? "Archive license active" : "Unlock unlimited"}</button>
     </header>
+    <aside class="demo-banner" id="demo-banner" ${state.demo ? "" : "hidden"}><strong>Demo — sample data, nothing is saved</strong><button id="reset-demo">Reset demo</button><button id="start-real">Start for real</button></aside>
     <main id="main" tabindex="-1">
       <section class="mast" aria-labelledby="page-title">
         <p class="kicker">Private document record · on this device</p>
@@ -76,6 +98,7 @@ function shell(): void {
 }
 
 async function load(): Promise<void> {
+  if (state.demo) { loadDemo(); return; }
   try {
     state.documents = await invoke<DocumentItem[]>("list_documents");
     const existing = state.selected && state.documents.find((d) => d.id === state.selected?.id);
@@ -88,6 +111,12 @@ async function load(): Promise<void> {
 }
 
 async function loadVersions(document: DocumentItem): Promise<void> {
+  if (state.demo) {
+    state.versions = demoVersions[document.id] || [];
+    state.current = state.versions[0];
+    state.previous = state.versions[1];
+    return;
+  }
   state.versions = await invoke<Version[]>("list_versions", { documentPath: document.path });
   state.current = state.versions[0];
   state.previous = state.versions[1];
@@ -96,8 +125,9 @@ async function loadVersions(document: DocumentItem): Promise<void> {
 function renderFiles(): void {
   const target = document.querySelector<HTMLDivElement>("#file-list"); if (!target) return;
   if (!state.documents.length) {
-    target.innerHTML = `<div class="empty"><span class="folio">No. 000</span>${icon("file")}<h3>No pages filed yet</h3><p>Choose a folder containing DOCX, ODT, PDF, or plain-text documents. Existing files are captured immediately.</p><button class="text-button" data-action="watch">Choose a folder →</button></div>`;
-    target.querySelector("button")?.addEventListener("click", chooseFolder);
+    target.innerHTML = `<div class="empty"><span class="folio">No. 000</span>${icon("file")}<h3>No pages filed yet</h3><p>Choose a folder containing DOCX, ODT, PDF, or plain-text documents. Existing files are captured immediately.</p><button class="text-button" data-action="demo">Load sample project →</button><button class="text-button" data-action="watch">Choose a folder →</button></div>`;
+    target.querySelector<HTMLButtonElement>("[data-action=demo]")?.addEventListener("click", enterDemo);
+    target.querySelector<HTMLButtonElement>("[data-action=watch]")?.addEventListener("click", chooseFolder);
     return;
   }
   target.innerHTML = state.documents.map((doc) => `<button class="file-row ${doc.id === state.selected?.id ? "selected" : ""}" data-id="${escapeHtml(doc.id)}" aria-pressed="${doc.id === state.selected?.id}">
@@ -128,7 +158,8 @@ function renderPreview(): void {
 }
 
 async function chooseFolder(): Promise<void> {
-    try {
+  if (state.demo) leaveDemo();
+  try {
     const selected = await open({ directory: true, multiple: false, title: "Choose a folder to watch" });
     if (!selected) return;
     state.busy = true; showNotice("Capturing existing documents…");
@@ -139,6 +170,7 @@ async function chooseFolder(): Promise<void> {
 }
 
 async function capture(): Promise<void> {
+  if (state.demo) { showNotice("Sample project checked. No data was saved."); return; }
   try { showNotice("Checking watched folders…"); await invoke("capture_all"); await load(); showNotice("Archive is up to date."); }
   catch (error) { showNotice(`Capture failed. Originals were not changed. ${String(error)}`, true); }
 }
@@ -150,6 +182,7 @@ function openRestoreDialog(): void {
 
 async function restore(): Promise<void> {
   if (!state.selected || !state.current) return;
+  if (state.demo) { showNotice("Sample restored. No file on your computer was changed."); return; }
   try {
     showNotice("Making a safety snapshot, then restoring…");
     await invoke("restore_version", { documentPath: state.selected.path, hash: state.current.hash });
@@ -164,6 +197,8 @@ function bind(): void {
   document.querySelector("#refresh")?.addEventListener("click", load);
   document.querySelector("#capture")?.addEventListener("click", capture);
   document.querySelector("#license-button")?.addEventListener("click", openLicenseDialog);
+  document.querySelector("#reset-demo")?.addEventListener("click", enterDemo);
+  document.querySelector("#start-real")?.addEventListener("click", leaveDemo);
   document.querySelector<HTMLDialogElement>("#restore-dialog")?.addEventListener("close", (event) => { if ((event.target as HTMLDialogElement).returnValue === "confirm") restore(); });
   document.querySelector("#verify-license")?.addEventListener("click", async (event) => {
     event.preventDefault(); const input = document.querySelector<HTMLInputElement>("#license-token")!; const note = document.querySelector("#license-note")!;
@@ -171,6 +206,30 @@ function bind(): void {
     saveLicense(input.value); note.textContent = "Checking license…"; const valid = await verifyLicense(); await invoke("set_license_status", { valid }); note.textContent = valid ? "License active. Unlimited archiving is ready." : "That license is not active. Check the token and try again.";
     document.querySelector("#license-button")!.textContent = valid ? "Archive license active" : "Unlock unlimited";
   });
+}
+
+function loadDemo(): void {
+  state.documents = demoDocuments;
+  state.selected = demoDocuments[0];
+  state.versions = demoVersions[state.selected.id];
+  state.current = state.versions[0];
+  state.previous = state.versions[1];
+  renderFiles(); renderHistory(); renderPreview();
+}
+
+function enterDemo(): void {
+  state.demo = true;
+  document.querySelector<HTMLElement>("#demo-banner")?.removeAttribute("hidden");
+  loadDemo();
+  showNotice("Sample project loaded. Nothing is saved to your archive.");
+}
+
+function leaveDemo(): void {
+  state.demo = false;
+  state.documents = []; state.selected = undefined; state.versions = []; state.current = undefined; state.previous = undefined;
+  document.querySelector<HTMLElement>("#demo-banner")?.setAttribute("hidden", "");
+  renderFiles(); renderHistory(); renderPreview();
+  showNotice("Demo closed. Choose a folder to start your own archive.");
 }
 
 function showNotice(message: string, error = false): void {

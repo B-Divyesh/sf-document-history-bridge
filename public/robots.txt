@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://document-history-bridge.sociobot.in/sitemap.xml

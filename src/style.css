@@ -32,6 +32,9 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .header-status { display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; color: var(--muted); }
 .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--ledger); }
 .app-header > :last-child { justify-self: end; }
+.demo-banner { min-height:52px; display:flex; align-items:center; justify-content:center; gap:16px; padding:6px 20px; background:var(--ink); color:var(--raised); font-size:13px; }
+.demo-banner[hidden] { display:none; }
+.demo-banner button { min-height:40px; padding:8px 12px; border:1px solid #77766f; background:transparent; color:var(--raised); cursor:pointer; }
 
 .mast { display: grid; grid-template-columns: minmax(250px, .8fr) minmax(400px, 1.5fr) minmax(260px, 1fr) auto; align-items: end; gap: 28px; padding: 28px clamp(20px, 3vw, 48px) 34px; border-bottom: 1px solid var(--ink); }
 .kicker { margin: 0; align-self: start; font: 700 11px/1.2 Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--proof); }
@@ -132,6 +135,8 @@ dialog input { width: 100%; min-height: 48px; border: 1px solid var(--ink); padd
   footer { display: block; line-height: 1.8; }
   footer span { display: block; }
   .dialog-actions { flex-direction: column-reverse; }
+  .demo-banner { flex-wrap:wrap; justify-content:flex-start; }
+  .demo-banner strong { width:100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

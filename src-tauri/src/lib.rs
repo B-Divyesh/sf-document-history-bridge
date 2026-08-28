@@ -410,7 +410,10 @@ fn restore_version(
         .capture_lock
         .lock()
         .map_err(|_| "Archive is busy.".to_string())?;
-    let root = archive_dir(&app)?;
+    restore_version_inner(&archive_dir(&app)?, &document_path, &hash)
+}
+
+fn restore_version_inner(root: &Path, document_path: &str, hash: &str) -> Result<(), String> {
     let original = PathBuf::from(&document_path);
     if !original.exists() {
         return Err("The original file is missing. Put it back in place, then try again.".into());
@@ -418,7 +421,7 @@ fn restore_version(
     let mut manifest = read_manifest(&root)?;
     let known = manifest
         .documents
-        .get(&document_path)
+        .get(document_path)
         .map(|r| r.versions.iter().any(|v| v.hash == hash))
         .unwrap_or(false);
     if !known {
@@ -432,7 +435,7 @@ fn restore_version(
         None,
     )?;
     write_manifest(&root, &manifest)?;
-    let object = root.join("objects").join(&hash);
+    let object = root.join("objects").join(hash);
     let parent = original.parent().ok_or("The file has no parent folder.")?;
     let temp = parent.join(format!(".dhb-restore-{hash}.tmp"));
     fs::copy(&object, &temp).map_err(|e| format!("Restored copy could not be prepared: {e}"))?;
@@ -512,7 +515,42 @@ mod tests {
     #[test]
     fn supported_formats_are_explicit() {
         assert!(supported(Path::new("report.docx")));
+        assert!(supported(Path::new("report.odt")));
         assert!(supported(Path::new("report.PDF")));
+        assert!(supported(Path::new("notes.rtf")));
+        assert!(supported(Path::new("notes.md")));
+        assert!(supported(Path::new("notes.txt")));
         assert!(!supported(Path::new("sheet.xlsx")));
+    }
+
+    #[test]
+    fn claim_native_history_restores_exact_bytes_and_keeps_current_version() {
+        let unique = format!(
+            "dhb-test-{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        );
+        let root = std::env::temp_dir().join(unique);
+        let objects = root.join("objects");
+        fs::create_dir_all(&objects).unwrap();
+        let document = root.join("proposal.txt");
+        fs::write(&document, b"Payment due in thirty days").unwrap();
+        let mut manifest = ArchiveManifest::default();
+        capture_file(&root, &mut manifest, &document, "Initial capture", Some(30)).unwrap();
+        let first_hash = manifest.documents.values().next().unwrap().versions[0]
+            .hash
+            .clone();
+        fs::write(&document, b"Payment due in forty-five days").unwrap();
+        write_manifest(&root, &manifest).unwrap();
+
+        restore_version_inner(&root, document.to_str().unwrap(), &first_hash).unwrap();
+
+        assert_eq!(fs::read(&document).unwrap(), b"Payment due in thirty days");
+        let after = read_manifest(&root).unwrap();
+        let versions = &after.documents.values().next().unwrap().versions;
+        assert!(versions
+            .iter()
+            .any(|version| version.reason == "Pre-restore safety capture"));
+        assert_eq!(versions[0].hash, first_hash);
+        fs::remove_dir_all(root).unwrap();
     }
 }
