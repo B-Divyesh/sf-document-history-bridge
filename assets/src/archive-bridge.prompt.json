@@ -1,0 +1,8 @@
+{
+  "model": "factory-image (Azure AI Foundry)",
+  "date": "2026-08-28",
+  "use_case": "stylized-concept",
+  "prompt": "An overhead sequence of office-document pages, table grids and revision marks resolving from loose disorder on the right into a neat chronological bound archive on the left. Warm fibrous archival paper, sophisticated monochrome charcoal, engraved linework and letterpress printmaking, visual weight on the right and generous clean negative space upper left, bone paper, soot black, graphite grey, a single oxblood red proofreader mark and tiny ledger green accent. No people, hands, laptops, cloud icons, UI, recognizable document contents, text, letters, numbers, watermark, logos, brands, glossy 3D, gradients, neon, or blue.",
+  "source": "archive-bridge.png",
+  "derivatives": ["public/archive-bridge-768.webp", "public/archive-bridge-1440.webp"]
+}

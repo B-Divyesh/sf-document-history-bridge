@@ -1,0 +1,12 @@
+{
+  "slug": "document-history-bridge",
+  "title": "Document History Bridge",
+  "territory": "utilities",
+  "user": "People managing important office documents outside Git who need to see what changed and recover an earlier version without moving files into a proprietary cloud.",
+  "smallest_useful_product": "A local desktop folder watcher that creates content-addressed snapshots, renders DOCX/ODT/PDF previews, highlights text/table changes, and restores an exact prior file.",
+  "success_measure": "At least 10 pilot users recover or explain one accidental document change within 60 days, with no file contents leaving their machine.",
+  "artifact_class": "desktop-app",
+  "monetization": "one-time",
+  "constraints": "Never alter watched originals; use safe temporary conversion sandboxes; preserve embedded metadata; clearly flag unsupported encrypted/proprietary formats.",
+  "state": "RESEARCHED"
+}
