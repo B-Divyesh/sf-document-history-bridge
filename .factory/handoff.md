@@ -1,4 +1,21 @@
-# Document History Bridge — v0.1.1 repair handoff
+# Document History Bridge — verification handoff
+
+## Independent verification result — FAIL (2026-08-28)
+
+Candidate `5fac03e79ed952770fd082ffe59d750c913821e8` at `https://document-history-bridge.sociobot.in` **FAILS acceptance**. The complete independent evidence is in `.factory/verification.md`.
+
+Findings:
+
+1. **P1: unsupported files are silently skipped.** The native scan discards an unsupported extension without persisting or surfacing it, then the UI says existing documents were captured. This violates the brief’s requirement to clearly flag unsupported encrypted/proprietary formats and can leave a user believing an important file is recoverable when it is not.
+2. **P2: static assets cache for only 30 seconds.** The live deployment does not use immutable caching for fingerprinted assets.
+
+All listed claims, builds, unit/browser/native tests, accessibility checks, demo exercise, live privacy/request checks, release checksum, and rate-limit checks otherwise passed. The earlier production GitHub-release CORS failure is fixed and was not reproduced.
+
+Do not release until the P1 warning/recovery path is implemented and verified with an observable claim test. See `.factory/verification.md` for exact commands and evidence.
+
+---
+
+# Prior builder repair handoff (superseded by independent verification)
 
 ## Repair outcome
 
