@@ -5,11 +5,15 @@ type Manifest = { version: string; platforms: Record<string, { url: string; sha2
 const manifestUrl = "https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest/download/latest.json";
 const releaseUrl = "https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest";
 
-function platform(): Platform {
+async function platform(): Promise<Platform> {
   const ua = navigator.userAgent.toLowerCase();
   const machine = (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform?.toLowerCase() || navigator.platform.toLowerCase();
   if (ua.includes("win") || machine.includes("win")) return "windows-x64";
-  if (ua.includes("mac") || machine.includes("mac")) return /arm|aarch64/.test(ua) ? "macos-arm64" : "macos-x64";
+  if (ua.includes("mac") || machine.includes("mac") || /iphone|ipad/.test(ua)) {
+    const uaData = (navigator as Navigator & { userAgentData?: { getHighEntropyValues?: (keys: string[]) => Promise<{ architecture?: string }> } }).userAgentData;
+    const architecture = await uaData?.getHighEntropyValues?.(["architecture"]).catch(() => ({}));
+    return architecture?.architecture === "x86" ? "macos-x64" : "macos-arm64";
+  }
   return "linux-x64";
 }
 
@@ -21,7 +25,7 @@ const labels: Record<Platform, string> = {
 };
 
 async function resolveDownload(): Promise<void> {
-  const detected = platform();
+  const detected = await platform();
   const links = [document.querySelector<HTMLAnchorElement>("#primary-download"), document.querySelector<HTMLAnchorElement>("#secondary-download")].filter(Boolean) as HTMLAnchorElement[];
   links.forEach((link) => { link.href = releaseUrl; link.querySelector("span")!.textContent = labels[detected]; link.querySelector("small")!.textContent = "Opening release downloads…"; });
   try {
@@ -34,6 +38,9 @@ async function resolveDownload(): Promise<void> {
   } catch {
     links.forEach((link) => { link.querySelector("small")!.textContent = "Choose an installer on GitHub Releases"; });
     const note = document.querySelector("#download-note"); if (note) note.textContent = "Release downloads are temporarily unavailable here · browse every platform";
+  }
+  if (/iphone|ipad|android/i.test(navigator.userAgent)) {
+    const note = document.querySelector("#download-note"); if (note) note.textContent = "Desktop app · open this page on macOS, Windows, or Linux to install";
   }
 }
 
