@@ -59,6 +59,9 @@ All tests referenced by `.factory/claims.json` are included in those runs. The c
 - Downloaded the public Linux AppImage (77,945,336 bytes). SHA-256 was `71d3a0bc10303324a1fb22f832b36829810567d806a22c7f7cde1504e7fde718`, exactly matching `latest.json` and `SHA256SUMS`.
 - Deployment class remains static. Deploy with `/opt/fleet/lib/deploy-static.sh document-history-bridge dist/site`.
 - Live URL: `https://document-history-bridge.sociobot.in`.
+- Azure Static Web Apps deployment `26243318-0a49-4ef9-94a9-2499e9a81f69` succeeded on 2026-08-28.
+- A fresh live Chromium context made one GitHub API request, zero legacy `latest.json` requests, resolved the Linux action to the v0.1.1 AppImage, and recorded zero console/page errors.
+- Live root and demo verification returned HTTP 200. CSP permits GitHub API connections and no third-party scripts; security headers, `robots.txt`, and the four-route sitemap are present.
 - Post-deploy `verify-url.sh` reports and screenshots are under `.factory/evidence/live-root/` and `.factory/evidence/live-demo/`.
 
 ## Known gaps
