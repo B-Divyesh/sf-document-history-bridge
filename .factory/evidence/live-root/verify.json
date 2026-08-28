@@ -1,0 +1,14 @@
+{
+  "url": "https://document-history-bridge.sociobot.in",
+  "loadMs": 1029,
+  "errors": [],
+  "a11y": {
+    "title": "Document History Bridge — Track office file changes",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 2585
+  }
+}

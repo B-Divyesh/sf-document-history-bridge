@@ -38,6 +38,8 @@ describe("release downloads", () => {
     expect(cache.getItem(RELEASE_CACHE_KEY)).toContain("v0.1.0");
     await latestDownload("linux-x64", { fetcher, storage: cache, now: 100 + RELEASE_CACHE_TTL_MS - 1 });
     expect(fetcher).toHaveBeenCalledTimes(1);
+    await latestDownload("linux-x64", { fetcher, storage: cache, now: 100 + RELEASE_CACHE_TTL_MS });
+    expect(fetcher).toHaveBeenCalledTimes(2);
   });
 
   it("uses stale successful metadata when the API is offline", async () => {

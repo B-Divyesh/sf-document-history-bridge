@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Try Document History Bridge with three sample office files. The browser demo uses a separate sample-data store." />
+    <meta name="theme-color" content="#f2efe7" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://document-history-bridge.sociobot.in/demo/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Demo — Document History Bridge</title>
+    <script type="module" crossorigin src="/assets/demo-DqF6_KoW.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="/assets/demo-f6wjr7fJ.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to sample project</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Document History Bridge home"><span class="brand-mark" aria-hidden="true">D/H</span><span>Document History <b>Bridge</b></span></a>
+      <nav aria-label="Main navigation"><a aria-current="page" href="/demo/">Demo</a><a href="/#how">How it works</a><a href="/privacy/">Privacy</a><a class="nav-download" href="/#download">Download</a></nav>
+    </header>
+    <aside class="demo-banner" aria-label="Demo status"><strong>Demo — sample data, nothing is saved</strong><span>These files are not on your computer.</span><button id="reset-demo">Reset demo</button><a href="/#download" id="start-real">Start for real</a></aside>
+    <main id="main">
+      <header class="demo-intro">
+        <p class="eyebrow">Sample project · Client records</p>
+        <h1 tabindex="-1">Compare a sample document change.</h1>
+        <p>Choose a file and date. The change sheet updates with realistic sample text.</p>
+      </header>
+      <section class="demo-workspace" aria-label="Sample document archive">
+        <section class="demo-column files" aria-labelledby="files-heading">
+          <div class="column-heading"><span>01</span><h2 id="files-heading">Watched files</h2></div>
+          <div id="demo-files" class="demo-list" role="listbox" aria-label="Sample files"></div>
+        </section>
+        <section class="demo-column history" aria-labelledby="history-heading">
+          <div class="column-heading"><span>02</span><h2 id="history-heading">History</h2></div>
+          <div id="demo-history" class="demo-list" role="listbox" aria-label="Sample versions"></div>
+        </section>
+        <article class="demo-column sheet" aria-labelledby="sheet-heading">
+          <div class="column-heading"><span>03</span><h2 id="sheet-heading">Change sheet</h2><span class="legend">Added · Removed</span></div>
+          <div id="demo-sheet"></div>
+        </article>
+      </section>
+      <div id="demo-notice" role="status" aria-live="polite"></div>
+    </main>
+    <footer class="site-footer"><p>Local history for office files.<br><small>Built by Param Factory · Version 0.1.1</small></p><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-document-history-bridge">Source</a></nav></footer>
+  </body>
+</html>

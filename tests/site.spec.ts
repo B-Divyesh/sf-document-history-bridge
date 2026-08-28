@@ -53,15 +53,24 @@ test("@claim:release-cache successful metadata is reused for an hour when the ne
   expect(errors).toEqual([]);
 });
 
-test("missing release metadata shows a calm publishing state without uncaught errors", async ({ page }, testInfo) => {
+test("missing installer metadata shows a calm publishing state with a clean console", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop fallback assertion");
+  const errors = captureErrors(page);
+  await page.route(apiPattern, async (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ tag_name: "v0.1.0", assets: [] }) }));
+  await page.goto("/");
+  await expect(page.locator("#primary-download")).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest");
+  await expect(page.locator("#primary-download small")).toContainText("Downloads are being published");
+  await expect(page.locator("#download-note")).toContainText("Releases page");
+  expect(errors).toEqual([]);
+});
+
+test("a missing GitHub release is caught and renders the publishing state", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "desktop fallback assertion");
   const uncaught: string[] = [];
   page.on("pageerror", (error) => uncaught.push(error.message));
   await page.route(apiPattern, async (route) => route.fulfill({ status: 404, contentType: "application/json", body: JSON.stringify({ message: "Not Found" }) }));
   await page.goto("/");
-  await expect(page.locator("#primary-download")).toHaveAttribute("href", "https://github.com/B-Divyesh/sf-document-history-bridge/releases/latest");
   await expect(page.locator("#primary-download small")).toContainText("Downloads are being published");
-  await expect(page.locator("#download-note")).toContainText("Releases page");
   expect(uncaught).toEqual([]);
 });
 
